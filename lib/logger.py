@@ -11,7 +11,7 @@ class Logger():
             logger_file.write(data)
 
     def add_log(self, what, flags):
-        choose = ['Delete:', 'Create:', 'Update:']
+        choose = ['Delete:', 'Create:', 'Update:', 'Fatal:']
         prn_data = '{}\t {:5} {}'.format(str(datetime.datetime.now().strftime("%Y-%m-%d \\ %H-%M-%S")), choose[flags], what)
         add_data = prn_data + '\n'
         self._write_log_to_file(add_data)

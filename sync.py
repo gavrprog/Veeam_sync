@@ -1,5 +1,6 @@
 import os
 import shutil
+import sys
 import time
 
 from lib.logger import Logger
@@ -11,7 +12,14 @@ root_dst_dir = args.dst_path
 logger = Logger(args.log_path)
 if not os.path.isdir(args.log_path):
     os.mkdir(args.log_path)
-    logger.add_log(args.log_path + ' - folder for .log file', 1)
+    logger.add_log(args.log_path, 1)
+if not os.path.isdir(args.src_path):
+    logger.add_log('The source is not exist', 3)
+    sys.exit()
+if not os.path.isdir(args.dst_path):
+    os.mkdir(args.dst_path)
+    logger.add_log(args.dst_path, 1)
+
 
 while 1:
     time.sleep(args.time)
@@ -40,7 +48,7 @@ while 1:
                     os.mkdir(root_dst_dir + path_src)
                     logger.add_log(root_dst_dir + path_src, 1)
 
-        for path_dst in dst_arr:  # определяем массив с папками, которые надо удалить из цели
+        for path_dst in dst_arr:  # определяем массив с папками, которые надо удалить из источника
             flag = False
             for path_src in src_arr:
                 if path_dst == path_src:
@@ -48,7 +56,7 @@ while 1:
             if not flag:
                 del_arr.append(path_dst)
 
-        for i in range(len(del_arr), 0, -1):  # удаляем из цели папки и файлы
+        for i in range(len(del_arr), 0, -1):  # удаляем из источника папки и файлы
             path = root_dst_dir + del_arr[i - 1]
             if os.path.isfile(path):
                 os.remove(path)
